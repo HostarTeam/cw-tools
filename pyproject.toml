@@ -14,6 +14,7 @@ python = ">=3.8,<3.11"
 bcrypt = "^4.0.0"
 flake8 = "^5.0.4"
 pyinstaller = "^5.4.1"
+typer = {extras = ["all"], version = "^0.6.1"}
 
 
 [tool.poetry.group.dev.dependencies]
