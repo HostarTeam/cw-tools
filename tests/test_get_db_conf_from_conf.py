@@ -11,7 +11,7 @@ def test_get_db_conf_from_conf():
             'password': 'Test1'
         }}
     db_conf = get_db_conf_from_conf(conf)
-    assert db_conf.host
-    assert type(db_conf.port) == int
-    assert db_conf.user
-    assert db_conf.password
+    assert db_conf.get('host')
+    assert type(db_conf.get('port')) == int
+    assert db_conf.get('user')
+    assert db_conf.get('password')

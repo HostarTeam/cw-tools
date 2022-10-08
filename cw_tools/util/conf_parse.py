@@ -1,5 +1,4 @@
 from json import load
-from pymysql import Connection
 
 
 def read_conf_file(path: str):
@@ -10,13 +9,13 @@ def read_conf_file(path: str):
     except OSError as err:
         print(f'Error: {err.filename}')
     except SyntaxError:
-        print(f'Error could not parse conf file at {path}')
+        print(f'Error: could not parse conf file at {path}')
 
 
-def get_db_conf_from_conf(conf: dict) -> Connection:
+def get_db_conf_from_conf(conf: dict):
     db_conf_dict = conf.get('database')
-    return Connection(host=db_conf_dict.get('host'),
-                      port=db_conf_dict.get('port'),
-                      user=db_conf_dict.get('user'),
-                      database=db_conf_dict.get('database'),
-                      password=db_conf_dict.get('password'))
+    return dict(host=db_conf_dict.get('host'),
+                port=db_conf_dict.get('port'),
+                user=db_conf_dict.get('user'),
+                database=db_conf_dict.get('database'),
+                password=db_conf_dict.get('password'))
