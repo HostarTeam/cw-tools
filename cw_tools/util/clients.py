@@ -42,3 +42,9 @@ def delete_client(id: str):
     conn = get_connection()
     sql = 'DELETE FROM clients WHERE client_id = %s'
     execute_query(conn, sql, id)
+
+
+def changesecret_client(id: str, newsecret: str):
+    conn = get_connection()
+    sql = 'UPDATE clients SET client_secret =  %s WHERE client_id = %s'
+    execute_query(conn, sql, (hash_str(newsecret), id))

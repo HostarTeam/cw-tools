@@ -1,5 +1,5 @@
 from subprocess import run
-from click import confirm
+from click import confirm, prompt
 from pymysql import MySQLError
 from typer import Option, Typer
 from cw_tools.util.common import generate_random_string
@@ -62,10 +62,26 @@ def clients_delete(id: str):
         print(f'Error: No such client with ID: {id}')
         exit(1)
 
-    if not confirm(f'Are you sure you want to delete client with ID: {id}?',
-                   default=False):
-        print('Aborting...')
-        exit(1)
+    confirm(f'Are you sure you want to delete client with ID: {id}?',
+            default=False, abort=True)
 
     clients.delete_client(id)
     print(f'Successfully deleted client with ID {id}')
+
+
+@app.command('clients:changesecret')
+def clients_changepass(id: str, secret: str = None):
+    client = clients.get_client(id)
+    if client is None:
+        print(f'Error: No such client with ID: {id}')
+        exit(1)
+
+    if secret is None:
+        generated = generate_random_string(32)
+        secret = prompt('Enter new secret [Generated if left blank]', type=str,
+                        default=generated, show_default=False)
+        if secret == generated:
+            print(f'Secret generated: `{secret}`')
+
+    clients.changesecret_client(id, secret)
+    print(f'Successfulyl changed secret for client with ID {id}')
