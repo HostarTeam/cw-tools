@@ -57,8 +57,7 @@ def clients_create(
 
 @app.command('clients:delete')
 def clients_delete(id: str):
-    conn = get_connection()
-    client = clients.get_client(conn, id)
+    client = clients.get_client(id)
     if client is None:
         print(f'Error: No such client with ID: {id}')
         exit(1)

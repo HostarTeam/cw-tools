@@ -28,7 +28,8 @@ def create_client(id: str, secret: str):
     execute_query(conn, sql, (id, hash_str(secret)))
 
 
-def get_client(conn: Connection, id: str):
+def get_client(id: str):
+    conn = get_connection()
     sql = 'SELECT * FROM clients WHERE client_id = %s'
     result = execute_query(conn, sql, id)
     if len(result) > 0:
