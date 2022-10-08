@@ -2,10 +2,11 @@ from typing import Any, Tuple
 from pymysql import Connection, MySQLError, connect, OperationalError
 
 from cw_tools.util.conf_parse import read_conf_file
+from cw_tools.util.consts import CONF_PATH
 
 
-def get_connection(path: str):
-    db_conf = read_conf_file(path)
+def get_connection():
+    db_conf = read_conf_file(CONF_PATH)
     try:
         return connect(**db_conf, autocommit=True)
     except OperationalError as err:
