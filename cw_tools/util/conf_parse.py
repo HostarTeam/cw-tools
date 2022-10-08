@@ -18,5 +18,5 @@ def get_db_conf_from_conf(conf: dict) -> Connection:
     return Connection(host=db_conf_dict.get('host'),
                       port=db_conf_dict.get('port'),
                       user=db_conf_dict.get('user'),
-                      database=db_conf_dict.get('db'),
+                      database=db_conf_dict.get('database'),
                       password=db_conf_dict.get('password'))

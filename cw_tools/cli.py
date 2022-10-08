@@ -24,8 +24,8 @@ def db_status(conf_file='/etc/container-workspaces/conf.json'):
 def db_info(conf_file='/etc/container-workspaces/conf.json'):
     try:
         conn = get_connection(conf_file)
-        print(conn.db)
         run(['mysql', '-h', conn.host, '-u',
-            conn.user, f'--password={conn.password.decode()}'])
+            conn.user, f'--password={conn.password.decode()}', '-D',
+            conn.db.decode()])
     except OperationalError:
         print('Error: Could not connect to database')
