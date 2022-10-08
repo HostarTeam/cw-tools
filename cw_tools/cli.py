@@ -1,3 +1,4 @@
+from subprocess import run
 from pymysql import MySQLError, OperationalError
 from typer import Typer
 
@@ -14,11 +15,17 @@ def db_status(conf_file='/etc/container-workspaces/conf.json'):
         conn.ping()
         print('OK')
     except OperationalError:
-        print('Error: Could not connect to database and ')
+        print('Error: Could not connect to database')
     except MySQLError:
         print('Error: Connected to server but could not ping the connection')
 
 
-@app.command('db:nothing')
-def db_nothing(conf_file='/etc/container-workspaces/conf.json'):
-    pass
+@app.command('db:shell')
+def db_info(conf_file='/etc/container-workspaces/conf.json'):
+    try:
+        conn = get_connection(conf_file)
+        print(conn.db)
+        run(['mysql', '-h', conn.host, '-u',
+            conn.user, f'--password={conn.password.decode()}'])
+    except OperationalError:
+        print('Error: Could not connect to database')
