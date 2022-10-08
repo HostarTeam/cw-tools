@@ -1,7 +1,8 @@
 from typing import Tuple
-from pymysql import MySQLError, Connection
-from cw_tools.util.db import get_connection
+from pymysql import Connection
 from tabulate import tabulate
+
+from cw_tools.util.db import execute_query, get_connection
 
 
 def list_clients(path: str):
@@ -11,15 +12,8 @@ def list_clients(path: str):
 
 
 def fetch_clients(conn: Connection):
-    with conn.cursor() as cursor:
-        sql = 'SELECT * FROM clients'
-        try:
-            cursor.execute(sql)
-            return cursor.fetchall()
-        except MySQLError as err:
-            print(
-                f'Error: Could not execute sql query `{sql}`,\
-                 got: `{err.args[1]}`')
+    sql = 'SELECT * FROM clients'
+    return execute_query(conn, sql)
 
 
 def pretty_print_clients(clients: Tuple[tuple]):
